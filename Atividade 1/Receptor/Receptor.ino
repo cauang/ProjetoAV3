@@ -1,18 +1,20 @@
 #include <WiFi.h>
 #include <esp_now.h>
 
-void aoReceber(const uint8_t *mac, const uint8_t *dados, int len) {
-  Serial.print("Mensagem recebida de ");
-  for (int i = 0; i < 6; i++) {
-    Serial.printf("%02X", mac[i]);
-    if (i < 5) Serial.print(":");
-  }
-  Serial.print(" -> ");
+void aoReceber(const esp_now_recv_info_t *info, const uint8_t *dados, int len) {
+  char mensagem[250];
+  memcpy(mensagem, dados, len);
+  mensagem[len] = '\0';
 
-  char msg[250];
-  memcpy(msg, dados, len);
-  msg[len] = '\0'; // garante que é string
-  Serial.println(msg);
+  Serial.print("Recebido de: ");
+  char macStr[18];
+  sprintf(macStr, "%02X:%02X:%02X:%02X:%02X:%02X",
+          info->src_addr[0], info->src_addr[1], info->src_addr[2],
+          info->src_addr[3], info->src_addr[4], info->src_addr[5]);
+  Serial.println(macStr);
+
+  Serial.print("Mensagem recebida: ");
+  Serial.println(mensagem);
 }
 
 void setup() {
@@ -25,9 +27,9 @@ void setup() {
   }
 
   esp_now_register_recv_cb(aoReceber);
-  Serial.println("Receptor pronto!");
+  Serial.println("Aguardando mensagens...");
 }
 
 void loop() {
-  // Nada necessário aqui
+  // Nada aqui
 }
