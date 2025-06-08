@@ -13,7 +13,7 @@
 #define AIO_SERVER      "io.adafruit.com"
 #define AIO_SERVERPORT  1883
 #define AIO_USERNAME    "acanu"
-#define AIO_KEY         "xxxxxxx"  // VERIFIQUE ESTA CHAVE!
+#define AIO_KEY         "aio_DGna88g6F1nTcR0D5zzgOTTqaypn"  // VERIFIQUE ESTA CHAVE!
 
 // Hardware
 #define PINO_LED        2
